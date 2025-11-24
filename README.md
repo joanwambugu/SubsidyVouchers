@@ -1,5 +1,6 @@
 <<<<<<< HEAD
-Subsidy Voucher DApp 🌾
+
+# 🌾 Subsidy Voucher DApp
 
 <p align="center">
   <img src="assets/banner.png" alt="Subsidy Voucher DApp Banner" width="100%">
@@ -12,151 +13,265 @@ Subsidy Voucher DApp 🌾
   <img src="https://img.shields.io/badge/LICENSE-MIT-green">
 </p>
 
-A decentralized application for managing agricultural subsidy vouchers on the blockchain. This DApp allows funders to issue digital vouchers to farmers, which can then be redeemed at authorized suppliers for agricultural inputs.
+A decentralized blockchain system for issuing and redeeming **agricultural subsidy vouchers**, designed to increase transparency, reduce fraud, and streamline subsidy distribution between **Government Funders**, **Farmers**, and **Agro-Input Suppliers**.
 
-Features
-Wallet Integration: Connect MetaMask wallet to interact with the DApp
+This project uses:
 
-Role-Based Access: Separate functionalities for Funders and Suppliers
+- **Solidity (Ethereum Smart Contracts)**
+- **Remix IDE for deployment**
+- **Ethers.js**
+- **MetaMask**
+- **TailwindCSS UI**
+- **HTML/JavaScript Frontend**
 
-Voucher Management: Issue, redeem, and track subsidy vouchers
+---
 
-Supplier Registration: Funders can register/unregister suppliers
+## 🚀 Project Overview
 
-Real-time Status: View voucher status (Not Issued, Issued, Redeemed, Expired)
+The Subsidy Voucher DApp enables:
 
-Blockchain Transparency: All transactions are recorded on the blockchain
+### 👤 **Funder**
 
-Smart Contract Functions
-Funder Functions
-registerSupplier(address \_supplier) - Register new suppliers
+- Registers suppliers
+- Issues subsidy vouchers to farmers
+- Views all registered suppliers
 
-unregisterSupplier(address \_supplier) - Remove supplier authorization
+### 🏪 **Supplier**
 
-issueVoucher(address \_farmer, uint256 \_amount) - Create new vouchers for farmers
+- Connects their MetaMask account
+- Redeems vouchers issued to farmers
+- Verifies voucher validity and timestamps
 
-Supplier Functions
-redeemVoucher(uint256 \_voucherId) - Redeem vouchers from farmers
+### 👨‍🌾 **Farmer**
 
-View Functions
-vouchers(uint256) - Get voucher details by ID
+- Receives subsidy vouchers
+- Their address is recorded in the blockchain for tracking
 
-getAllSuppliers() - List all registered suppliers
+---
 
-isSupplier(address) - Check if address is an authorized supplier
+## ✨ Features
 
-funder() - Get contract owner address
+- 🔐 **Role-based access**
+- 🧾 **Immutable ledger of issued vouchers**
+- ✔ **Prevent double redemption**
+- 🌐 **MetaMask wallet integration**
+- 🎨 **Polished UI using TailwindCSS**
+- 🔎 **Voucher detail viewer**
+- 🧱 **On-chain supplier registration**
+- 🔄 **Account switching from UI dropdown**
 
-Voucher Status Types
-Not Issued: Voucher ID doesn't exist yet
+---
 
-Issued: Voucher created but not redeemed
+## 🏛 Smart Contract
 
-Redeemed: Voucher has been used by supplier
+The Solidity contract includes:
 
-Expired: Voucher is no longer valid
+- `registerSupplier(address)`
+- `issueVoucher(address farmer, uint amount)`
+- `redeemVoucher(uint voucherId)`
+- `getAllSuppliers()`
+- `mapping(address => bool) isSupplier`
+- `Voucher` struct for full on-chain voucher tracking
 
-Installation & Setup
-Prerequisites
-MetaMask browser extension
+Contract file name (recommended):
 
-Ethereum wallet with test ETH
+SubsidyVouchers.sol
 
-Modern web browser
+yaml
+Copy code
 
-Local Development
-Clone the repository:
+---
+
+## 📁 Project Structure
+
+project/
+│
+├── index.html # Polished TailwindCSS UI
+├── script.js (optional) # JS logic (or embedded in HTML)
+├── SubsidyVouchers.sol # Smart contract
+├── README.md # Documentation
+└── assets/ # (optional) screenshots, icons
+
+yaml
+Copy code
+
+---
+
+## 🧰 Prerequisites
+
+Before running this project, ensure you have:
+
+| Tool                        | Required                    |
+| --------------------------- | --------------------------- |
+| **MetaMask** browser wallet | ✔ YES                       |
+| **Remix IDE**               | For deployment              |
+| **Node.js** (optional)      | If using a local dev server |
+| **Live Server** (VS Code)   | Recommended                 |
+
+---
+
+## 🧪 Deploying the Smart Contract
+
+1. Open **Remix IDE**
+2. Create a new file `SubsidyVouchers.sol`
+3. Paste the provided smart contract code
+4. Compile using **Solidity 0.8.x**
+5. Use **Injected Provider (MetaMask)** to deploy
+6. Copy the deployed **contract address**
+
+---
+
+## 🖥 Running the Frontend (DApp UI)
+
+### Option 1 — VS Code Live Server (Recommended)
+
+1. Open the project folder in VS Code
+2. Right-click `index.html`
+3. Select **“Open with Live Server”**
+
+Your DApp opens at something like:
+
+http://127.0.0.1:5500/
+
+yaml
+Copy code
+
+MetaMask will now inject correctly into the browser.
+
+---
+
+### Option 2 — Simple Node HTTP Server
+
+Install:
+
+```bash
+npm install -g http-server
+Run:
 
 bash
-git clone https://github.com/joanwambugu/SubsidyVouchers.git
-Open index.html in your browser or serve using a local server:
+Copy code
+http-server .
+Open:
+
+arduino
+Copy code
+http://localhost:8080
+🔌 Connecting MetaMask
+Click Connect Wallet in the UI.
+
+You will see:
+
+All MetaMask accounts exposed to the DApp
+
+Highlighted roles (Funder, Supplier, Other)
+
+Only funder can register suppliers / issue vouchers
+
+Only suppliers can redeem vouchers
+
+To expose more accounts:
+
+Open MetaMask
+
+Create or import more accounts
+
+Refresh the DApp
+
+Click Connect Wallet again
+
+🎭 Role Detection (How It Works)
+The UI automatically identifies your role by reading on-chain data:
+
+Funder
+The wallet that deployed the contract.
+
+Supplier
+Any address that funder registered using:
+
+scss
+Copy code
+registerSupplier(address)
+Other
+Any exposed MetaMask address with no role.
+
+🎨 UI Overview
+✔ Polished TailwindCSS cards
+✔ Separate panels for Funder and Supplier
+✔ Voucher viewer
+✔ Dropdown to switch acting wallet
+
+Screenshots (add your own):
 
 bash
+Copy code
+assets/connect-wallet.png
+assets/funder-panel.png
+assets/supplier-panel.png
+🧩 How the System Works
+1. Funder registers supplier
+Supplier address stored both in:
 
-# Using Python
+mapping
 
-python -m http.server 8000
+array supplierList[]
 
-# Using Node.js
+2. Funder issues voucher
+Voucher fields stored on-chain:
 
-npx http-server
-Access the DApp at http://localhost:8000
+farmer
 
-Smart Contract Deployment
-Compile and deploy SubsidyVouchers.sol to your preferred Ethereum network
+amount
 
-Update the contract address in the DApp interface
+issue timestamp
 
-Connect your wallet and start managing vouchers
+status
 
-Usage Guide
-For Funders
-Connect your wallet (must be the contract deployer)
+3. Supplier redeems voucher
+Contract:
 
-Load the contract using the deployed address
+Checks supplier is registered
 
-Register suppliers who can redeem vouchers
+Ensures voucher exists
 
-Issue vouchers to farmer addresses with specified amounts
+Prevents double redemption
 
-For Suppliers
-Connect your wallet with a registered supplier account
+Saves redemption timestamp
 
-Ensure the contract is loaded
+🧪 Testing Scenarios
+Test the following in your DApp:
 
-Redeem vouchers using the voucher ID provided by farmers
+✔ Funder issuing a voucher
+✔ Supplier redeeming
+✔ Attempt redemption with unregistered account
+→ should fail
 
-For Everyone
-View voucher details by entering the voucher ID
+✔ Two suppliers trying to redeem the same voucher
+→ should fail
 
-Check real-time status of any voucher
+🛡 Security Considerations
+All critical functions use role-based access control
 
-Technology Stack
-Frontend: HTML, CSS, JavaScript
+Vouchers cannot be redeemed twice
 
-Blockchain: Ethereum, Solidity
+Supplier list kept on-chain for transparency
 
-Web3 Library: Ethers.js
+No upgradeability → safer for simple deployments
 
-Wallet: MetaMask
+📜 License
+This project is released under the MIT License.
+Feel free to modify and use for academic, governmental, or commercial purposes.
 
-Icons: Font Awesome
+🙌 Acknowledgements
+Ethereum Foundation
 
-Contract Address
-Update this with your deployed contract address
+MetaMask
 
-text
-0x...
-Network Support
-Ethereum Mainnet
+Ethers.js team
 
-Ethereum Testnets (Goerli, Sepolia)
-
-Local Development Networks (Ganache, Hardhat)
-
-Security Features
-Role-based access control
-
-Input validation
-
-Only authorized suppliers can redeem vouchers
-
-Immutable transaction records
-
-Contributing
-Fork the repository
-
-Create a feature branch
-
-Commit your changes
-
-Push to the branch
-
-Create a Pull Request
-
-# Built with ❤️ for transparent agricultural subsidy management
+Kenya’s agricultural subsidy programs (inspiration)
 
 "# SubsidyVouchers"
 read
 
 > > > > > > > 7f688d4f43b4892006876f9b5fda25ae00364385
+```
