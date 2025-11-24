@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Subsidy Voucher DApp 🌾
 A decentralized application for managing agricultural subsidy vouchers on the blockchain. This DApp allows funders to issue digital vouchers to farmers, which can then be redeemed at authorized suppliers for agricultural inputs.
 
@@ -139,3 +140,7 @@ Push to the branch
 Create a Pull Request
 
 Built with ❤️ for transparent agricultural subsidy management
+=======
+"# SubsidyVouchers" 
+read
+>>>>>>> 7f688d4f43b4892006876f9b5fda25ae00364385
