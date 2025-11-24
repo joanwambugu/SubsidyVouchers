@@ -1,0 +1,336 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "supplier",
+						"type": "address"
+					}
+				],
+				"name": "SupplierRegistered",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "supplier",
+						"type": "address"
+					}
+				],
+				"name": "SupplierUnregistered",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "voucherId",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "farmer",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "issueTime",
+						"type": "uint256"
+					}
+				],
+				"name": "VoucherIssued",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "voucherId",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "supplier",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "farmer",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "redemptionTime",
+						"type": "uint256"
+					}
+				],
+				"name": "VoucherRedeemed",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "funder",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getAllSuppliers",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "isSupplier",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_farmer",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "issueVoucher",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_voucherId",
+						"type": "uint256"
+					}
+				],
+				"name": "redeemVoucher",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_supplier",
+						"type": "address"
+					}
+				],
+				"name": "registerSupplier",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "supplierList",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_supplier",
+						"type": "address"
+					}
+				],
+				"name": "unregisterSupplier",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "vouchers",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "farmer",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "issueTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "supplier",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "redemptionTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "enum SubsidyVouchers.Status",
+						"name": "status",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {
+				"registerSupplier(address)": {
+					"params": {
+						"_supplier": "The address of the agro-input supplier."
+					}
+				},
+				"unregisterSupplier(address)": {
+					"details": "We keep supplierList entries to save gas; frontend filters by isSupplier mapping.",
+					"params": {
+						"_supplier": "The address to unregister."
+					}
+				}
+			},
+			"title": "SubsidyVouchers",
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"registerSupplier(address)": {
+					"notice": "Registers a new address as an authorized supplier."
+				},
+				"unregisterSupplier(address)": {
+					"notice": "Revokes an address's supplier status."
+				}
+			},
+			"notice": "A contract for issuing and tracking decentralized agricultural input subsidy vouchers.",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"SubsidyVoucher.sol": "SubsidyVouchers"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"SubsidyVoucher.sol": {
+			"keccak256": "0x2b35eeec06cfa2dfd2f8bfdd8439bc2a8f30ab60521c341c5dd559947d6b7195",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://97369f4b69bc7fd98b36f91d25c1ca74a02c1530d43bca45ff028ac0fbfeac8c",
+				"dweb:/ipfs/QmcBFNPdaY5xNC6ZLCUoYz2MBHBJ8pYveaFx68Jd4kQ3LE"
+			]
+		}
+	},
+	"version": 1
+}

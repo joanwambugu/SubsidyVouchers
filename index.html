@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>🌾 Subsidy Voucher DApp</title>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2b6cb0;
+      --primary-dark: #1a4f7a;
+      --primary-light: #4299e1;
+      --secondary: #38a169;
+      --secondary-dark: #2f855a;
+      --accent: #ed8936;
+      --light: #f7fafc;
+      --dark: #2d3748;
+      --gray: #718096;
+      --gray-light: #e2e8f0;
+      --success: #48bb78;
+      --warning: #ed8936;
+      --danger: #f56565;
+      --border-radius: 12px;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .app-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px;
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+    }
+
+    .logo {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+
+    h1 {
+      color: var(--primary);
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      color: var(--gray);
+      font-size: 1.1rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 25px;
+      margin-bottom: 25px;
+      transition: var(--transition);
+      border-left: 4px solid var(--primary);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .card-icon {
+      background: var(--primary);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      font-size: 1.2rem;
+    }
+
+    h3 {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid var(--gray-light);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+    }
+
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    button:hover {
+      background: var(--primary-dark);
+    }
+
+    button.secondary {
+      background: var(--secondary);
+    }
+
+    button.secondary:hover {
+      background: var(--secondary-dark);
+    }
+
+    button.accent {
+      background: var(--accent);
+    }
+
+    button.accent:hover {
+      background: #dd7724;
+    }
+
+    .status {
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+
+    .status.success {
+      background: rgba(72, 187, 120, 0.1);
+      color: var(--success);
+      border-left: 3px solid var(--success);
+    }
+
+    .status.info {
+      background: rgba(66, 153, 225, 0.1);
+      color: var(--primary);
+      border-left: 3px solid var(--primary);
+    }
+
+    .status.warning {
+      background: rgba(237, 137, 54, 0.1);
+      color: var(--warning);
+      border-left: 3px solid var(--warning);
+    }
+
+    .status.error {
+      background: rgba(245, 101, 101, 0.1);
+      color: var(--danger);
+      border-left: 3px solid var(--danger);
+    }
+
+    pre {
+      background: var(--light);
+      padding: 15px;
+      border-radius: 8px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      margin-top: 15px;
+      border: 1px solid var(--gray-light);
+    }
+
+    .role-badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-left: 10px;
+    }
+
+    .role-funder {
+      background: rgba(66, 153, 225, 0.2);
+      color: var(--primary);
+    }
+
+    .role-supplier {
+      background: rgba(72, 187, 120, 0.2);
+      color: var(--secondary);
+    }
+
+    .role-other {
+      background: rgba(160, 174, 192, 0.2);
+      color: var(--gray);
+    }
+
+    .wallet-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .wallet-address {
+      font-family: 'Courier New', monospace;
+      background: var(--light);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      font-size: 0.8rem;
+      margin-right: 8px;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .action-buttons button {
+      flex: 1;
+    }
+
+    .voucher-status {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
+    .status-issued {
+      background: rgba(66, 153, 225, 0.2);
+      color: var(--primary);
+    }
+
+    .status-redeemed {
+      background: rgba(72, 187, 120, 0.2);
+      color: var(--secondary);
+    }
+
+    .status-expired {
+      background: rgba(237, 137, 54, 0.2);
+      color: var(--warning);
+    }
+
+    .status-not-issued {
+      background: rgba(160, 174, 192, 0.2);
+      color: var(--gray);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <div class="logo">
+        <i class="fas fa-seedling"></i>
+      </div>
+      <h1>Subsidy Voucher DApp</h1>
+      <p class="subtitle">Manage agricultural subsidy vouchers on the blockchain</p>
+    </header>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">
+          <i class="fas fa-wallet"></i>
+        </div>
+        <h3><span class="step-number">1</span> Connect Wallet</h3>
+      </div>
+      <p>Connect your MetaMask wallet to interact with the DApp</p>
+      <button id="connectBtn" class="secondary">
+        <i class="fas fa-plug"></i> Connect Wallet
+      </button>
+      <div class="wallet-info">
+        <div id="walletAddress" class="wallet-address">Not connected</div>
+        <div id="userRole"></div>
+      </div>
+      <div class="status info">
+        <i class="fas fa-info-circle"></i> Allow account access in MetaMask. The DApp will list accounts you've exposed to this site.
+      </div>
+      <div class="form-group">
+        <label for="accountSelect">Select Account</label>
+        <select id="accountSelect"></select>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">
+          <i class="fas fa-file-contract"></i>
+        </div>
+        <h3><span class="step-number">2</span> Contract Setup</h3>
+      </div>
+      <div class="form-group">
+        <label for="contractAddress">Contract Address</label>
+        <input type="text" id="contractAddress" placeholder="Paste your deployed contract address here">
+      </div>
+      <button id="loadContractBtn">
+        <i class="fas fa-download"></i> Load Contract
+      </button>
+      <div id="contractStatus" class="status info">Contract not loaded</div>
+      <div id="supplierLoadStatus" class="status">Suppliers will load after contract is loaded</div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">
+            <i class="fas fa-user-plus"></i>
+          </div>
+          <h3>Register Supplier</h3>
+        </div>
+        <p class="muted">Funder only function</p>
+        <div class="form-group">
+          <label for="supplierAddress">Supplier Address</label>
+          <input type="text" id="supplierAddress" placeholder="Supplier address (0x...)">
+        </div>
+        <button id="registerSupplierBtn" class="accent">
+          <i class="fas fa-user-check"></i> Register Supplier
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">
+            <i class="fas fa-file-invoice-dollar"></i>
+          </div>
+          <h3>Issue Voucher</h3>
+        </div>
+        <p class="muted">Funder only function</p>
+        <div class="form-group">
+          <label for="farmerAddress">Farmer Address</label>
+          <input type="text" id="farmerAddress" placeholder="Farmer address (0x...)">
+        </div>
+        <div class="form-group">
+          <label for="voucherAmount">Voucher Amount</label>
+          <input type="number" id="voucherAmount" placeholder="Voucher amount (e.g., 100)">
+        </div>
+        <button id="issueVoucherBtn" class="accent">
+          <i class="fas fa-plus-circle"></i> Issue Voucher
+        </button>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">
+            <i class="fas fa-hand-holding-usd"></i>
+          </div>
+          <h3>Redeem Voucher</h3>
+        </div>
+        <p class="muted">Supplier function</p>
+        <div class="form-group">
+          <label for="voucherId">Voucher ID</label>
+          <input type="number" id="voucherId" placeholder="Voucher ID to redeem">
+        </div>
+        <button id="redeemVoucherBtn" class="secondary">
+          <i class="fas fa-check-circle"></i> Redeem Voucher
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">
+            <i class="fas fa-search"></i>
+          </div>
+          <h3>View Voucher Details</h3>
+        </div>
+        <div class="form-group">
+          <label for="viewVoucherId">Voucher ID</label>
+          <input type="number" id="viewVoucherId" placeholder="Voucher ID">
+        </div>
+        <button id="viewVoucherBtn">
+          <i class="fas fa-eye"></i> View Voucher
+        </button>
+        <pre id="voucherDetails">Voucher details will appear here</pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Globals
+    let provider;
+    let signer;
+    let contract;
+    let exposedAccounts = []; // accounts the site has access to (from MetaMask)
+    let contractAddressGlobal = "";
+    let voucherCounter = 0; // Track the latest voucher ID
+
+    // Minimal ABI required for interactions
+    const abi = [
+      "function registerSupplier(address _supplier) public",
+      "function unregisterSupplier(address _supplier) public",
+      "function issueVoucher(address _farmer, uint256 _amount) public",
+      "function redeemVoucher(uint256 _voucherId) public",
+      "function vouchers(uint256) public view returns (uint256 id, address farmer, uint256 amount, uint256 issueTime, address supplier, uint256 redemptionTime, uint8 status)",
+      "function funder() public view returns (address)",
+      "function getAllSuppliers() public view returns (address[] memory)",
+      "function isSupplier(address) public view returns (bool)"
+    ];
+
+    // Utility to update UI list of exposed accounts
+    function populateExposedAccounts() {
+      const sel = document.getElementById("accountSelect");
+      sel.innerHTML = "";
+      if (!exposedAccounts || exposedAccounts.length === 0) {
+        const opt = document.createElement("option");
+        opt.textContent = "No accounts exposed to this site — click Connect and allow accounts";
+        sel.appendChild(opt);
+        return;
+      }
+      exposedAccounts.forEach((acc, i) => {
+        const opt = document.createElement("option");
+        opt.value = acc;
+        opt.textContent = acc + (i === 0 ? " (primary)" : "");
+        sel.appendChild(opt);
+      });
+    }
+
+    // Connect Wallet: request permissions and accounts
+    document.getElementById("connectBtn").onclick = async () => {
+      if (!window.ethereum) return alert("Please install MetaMask!");
+
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+
+      try {
+        // Request permission to access account addresses (MetaMask will show the permissions UI)
+        await window.ethereum.request({
+          method: "wallet_requestPermissions",
+          params: [{ eth_accounts: {} }],
+        });
+      } catch (err) {
+        // If user denies, try eth_requestAccounts as fallback
+        console.warn("wallet_requestPermissions failed or denied, falling back to eth_requestAccounts", err);
+      }
+
+      try {
+        // This returns the list of accounts MetaMask exposes to the site
+        const accs = await window.ethereum.request({ method: "eth_requestAccounts" });
+        exposedAccounts = accs || [];
+        populateExposedAccounts();
+        if (exposedAccounts.length > 0) {
+          signer = provider.getSigner(exposedAccounts[0]);
+          document.getElementById("walletAddress").innerText = "Connected: " + exposedAccounts[0];
+        } else {
+          document.getElementById("walletAddress").innerText = "Connected but no accounts exposed";
+        }
+
+        // If contract is loaded, also refresh supplier list UI
+        if (contract) await loadAndRenderSuppliers();
+
+      } catch (err) {
+        alert("Connection failed: " + (err && err.message ? err.message : err));
+      }
+    };
+
+    // Handle external changes in MetaMask accounts
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged", (newAccounts) => {
+        exposedAccounts = newAccounts || [];
+        populateExposedAccounts();
+        // if signer currently points to an unexposed account, switch to first exposed
+        if (exposedAccounts.length > 0) {
+          signer = provider.getSigner(exposedAccounts[0]);
+          document.getElementById("walletAddress").innerText = "Connected: " + exposedAccounts[0];
+        } else {
+          document.getElementById("walletAddress").innerText = "No accounts exposed.";
+        }
+      });
+    }
+
+    // Load Contract
+    document.getElementById("loadContractBtn").onclick = async () => {
+      const addr = document.getElementById("contractAddress").value.trim();
+      if (!addr || !ethers.utils.isAddress(addr)) return alert("Invalid contract address");
+      if (!provider) {
+        provider = new ethers.providers.Web3Provider(window.ethereum);
+      }
+      // set signer to first exposed (if available)
+      signer = exposedAccounts && exposedAccounts.length > 0 ? provider.getSigner(exposedAccounts[0]) : provider.getSigner();
+      contract = new ethers.Contract(addr, abi, signer);
+      contractAddressGlobal = addr;
+      document.getElementById("contractStatus").innerText = "Contract loaded: " + addr;
+      document.getElementById("contractStatus").className = "status success";
+      document.getElementById("supplierLoadStatus").innerText = "Loading supplier list from chain...";
+      document.getElementById("supplierLoadStatus").className = "status info";
+      try {
+        await loadAndRenderSuppliers();
+        document.getElementById("supplierLoadStatus").innerText = "Suppliers loaded from chain.";
+        document.getElementById("supplierLoadStatus").className = "status success";
+      } catch (err) {
+        document.getElementById("supplierLoadStatus").innerText = "Failed to load suppliers: " + (err && err.message ? err.message : err);
+        document.getElementById("supplierLoadStatus").className = "status error";
+      }
+      await updateRoleLabel();
+    };
+
+    // Fetch on-chain supplier list, filter active ones, render in a dedicated dropdown for suppliers
+    async function loadAndRenderSuppliers() {
+      if (!contract) throw new Error("Contract not loaded");
+      const raw = await contract.getAllSuppliers();
+      // Filter only active suppliers
+      const active = [];
+      for (let i = 0; i < raw.length; i++) {
+        try {
+          const addr = raw[i];
+          const activeFlag = await contract.isSupplier(addr);
+          if (activeFlag) active.push(addr);
+        } catch (err) {
+          // ignore per-entry errors
+        }
+      }
+
+      // Build supplier-specific select for selecting the on-chain supplier to act as.
+      // We'll reuse the same accountSelect dropdown but mark options:
+      const sel = document.getElementById("accountSelect");
+      sel.innerHTML = "";
+
+      // Also include the funder as an option if present in exposedAccounts
+      let funderAddr;
+      try {
+        funderAddr = await contract.funder();
+      } catch (err) {
+        funderAddr = null;
+      }
+
+      // If funder is exposed, add funder opt
+      if (funderAddr) {
+        const isExposedFunder = exposedAccounts.includes(funderAddr.toLowerCase()) || exposedAccounts.includes(funderAddr);
+        const opt = document.createElement("option");
+        opt.value = funderAddr;
+        opt.textContent = funderAddr + " (Funder)";
+        if (!isExposedFunder) {
+          opt.disabled = true;
+          opt.textContent += " — NOT in MetaMask (import to transact)";
+        }
+        sel.appendChild(opt);
+      }
+
+      // Add each supplier (active ones)
+      if (active.length === 0) {
+        const opt = document.createElement("option");
+        opt.textContent = "No registered active suppliers on-chain yet";
+        sel.appendChild(opt);
+      } else {
+        active.forEach((addr) => {
+          const lower = addr.toLowerCase();
+          const isExposed = exposedAccounts.map(a => a.toLowerCase()).includes(lower);
+          const opt = document.createElement("option");
+          opt.value = addr;
+          opt.textContent = addr + " (Supplier)";
+          if (!isExposed) {
+            opt.disabled = true;
+            opt.textContent += " — NOT in MetaMask (import to transact)";
+          }
+          sel.appendChild(opt);
+        });
+      }
+
+      // If there are any exposed accounts which are not in the supplier list, also show them as "Other exposed account"
+      const exposedLower = exposedAccounts.map(a => a.toLowerCase());
+      const alreadyShown = new Set([funderAddr ? funderAddr.toLowerCase() : null, ...active.map(a => a.toLowerCase())]);
+      exposedAccounts.forEach((acc) => {
+        if (!alreadyShown.has(acc.toLowerCase())) {
+          const opt = document.createElement("option");
+          opt.value = acc;
+          opt.textContent = acc + " (Exposed to site)";
+          sel.appendChild(opt);
+        }
+      });
+
+      // Pre-select first enabled option
+      for (let i = 0; i < sel.options.length; i++) {
+        if (!sel.options[i].disabled) {
+          sel.selectedIndex = i;
+          break;
+        }
+      }
+    }
+
+    // Update role label (for UI)
+    async function updateRoleLabel() {
+      if (!contract) {
+        document.getElementById("userRole").innerHTML = "";
+        return;
+      }
+      try {
+        const funderAddr = (await contract.funder()).toLowerCase();
+        // selected address from dropdown
+        const sel = document.getElementById("accountSelect");
+        const selected = sel && sel.value ? sel.value.toLowerCase() : (exposedAccounts[0] || "").toLowerCase();
+        let role = "Other";
+        let roleClass = "role-other";
+        if (selected === funderAddr) {
+          role = "Funder";
+          roleClass = "role-funder";
+        }
+        else {
+          const activeFlag = await contract.isSupplier(selected);
+          if (activeFlag) {
+            role = "Supplier";
+            roleClass = "role-supplier";
+          }
+        }
+        document.getElementById("userRole").innerHTML = `<span class="role-badge ${roleClass}">${role}</span>`;
+      } catch (err) {
+        document.getElementById("userRole").innerHTML = "";
+      }
+    }
+
+    // Register Supplier button
+    document.getElementById("registerSupplierBtn").onclick = async () => {
+      if (!contract) return alert("Load the contract first");
+      const supplier = document.getElementById("supplierAddress").value.trim();
+      if (!ethers.utils.isAddress(supplier)) return alert("Invalid supplier address");
+      // Ensure selected "acting as" address is funder and is exposed to this site
+      const sel = document.getElementById("accountSelect");
+      const acting = sel.value;
+      if (!acting) return alert("Select an account to act as (must be the Funder account exposed in MetaMask)");
+      // ensure acting is exposed in exposedAccounts
+      if (!exposedAccounts.map(a => a.toLowerCase()).includes(acting.toLowerCase())) {
+        return alert("The acting account is not exposed to this site. Use Connect Wallet and allow MetaMask to expose the funder account.");
+      }
+      try {
+        // Use signer for acting account
+        const signerForActing = provider.getSigner(acting);
+        const contractAsActing = contract.connect(signerForActing);
+        const tx = await contractAsActing.registerSupplier(supplier);
+        await tx.wait();
+        alert("Supplier registered on-chain ✅");
+        // reload suppliers list
+        await loadAndRenderSuppliers();
+        await updateRoleLabel();
+      } catch (err) {
+        alert("Register supplier failed: " + (err && err.message ? err.message : err));
+      }
+    };
+
+    // Issue Voucher button
+    document.getElementById("issueVoucherBtn").onclick = async () => {
+      if (!contract) return alert("Load the contract first");
+      const farmer = document.getElementById("farmerAddress").value.trim();
+      const amount = document.getElementById("voucherAmount").value;
+      if (!ethers.utils.isAddress(farmer)) return alert("Invalid farmer address");
+      if (!amount || Number(amount) <= 0) return alert("Amount must be > 0");
+
+      const sel = document.getElementById("accountSelect");
+      const acting = sel.value;
+      if (!exposedAccounts.map(a => a.toLowerCase()).includes((acting || "").toLowerCase())) {
+        return alert("The acting account is not exposed to this site. Make sure the Funder account is exposed via Connect Wallet.");
+      }
+
+      try {
+        const signerForActing = provider.getSigner(acting);
+        const contractAsActing = contract.connect(signerForActing);
+        const tx = await contractAsActing.issueVoucher(farmer, amount);
+        await tx.wait();
+        alert("Voucher issued ✅");
+        voucherCounter++; // Increment our local counter
+      } catch (err) {
+        alert("Issue voucher failed: " + (err && err.message ? err.message : err));
+      }
+    };
+
+    // Redeem Voucher button (supplier)
+    document.getElementById("redeemVoucherBtn").onclick = async () => {
+      if (!contract) return alert("Load the contract first");
+      const id = document.getElementById("voucherId").value;
+      if (!id) return alert("Provide voucher ID");
+
+      const sel = document.getElementById("accountSelect");
+      const acting = sel.value;
+      if (!acting) return alert("Select acting account (must be a supplier exposed in MetaMask)");
+
+      // Check that acting is exposed in MetaMask
+      if (!exposedAccounts.map(a => a.toLowerCase()).includes(acting.toLowerCase())) {
+        return alert("Selected acting account is not exposed to this site — import that account into MetaMask and reconnect (Connect Wallet) to transact.");
+      }
+
+      // Check acting is an active supplier on-chain
+      const isActive = await contract.isSupplier(acting);
+      if (!isActive) return alert("Selected account is not an active supplier on-chain. Only registered suppliers can redeem.");
+
+      try {
+        const signerForActing = provider.getSigner(acting);
+        const contractAsActing = contract.connect(signerForActing);
+        const tx = await contractAsActing.redeemVoucher(id);
+        await tx.wait();
+        alert("Voucher redeemed ✅");
+      } catch (err) {
+        alert("Redeem failed: " + (err && err.message ? err.message : err));
+      }
+    };
+
+    // View Voucher - Enhanced to handle non-existent vouchers
+    document.getElementById("viewVoucherBtn").onclick = async () => {
+      if (!contract) return alert("Load the contract first");
+      const id = document.getElementById("viewVoucherId").value;
+      if (!id) return alert("Provide voucher ID");
+      
+      try {
+        // Try to get the voucher data
+        const v = await contract.vouchers(id);
+        
+        // Check if the voucher exists (has a non-zero farmer address)
+        if (v.farmer === ethers.constants.AddressZero) {
+          document.getElementById("voucherDetails").innerHTML = `
+Voucher ID: ${id}
+<span class="voucher-status status-not-issued">Not Issued</span>
+
+This voucher ID has not been issued yet.
+Only the funder can issue vouchers to farmers.
+          `;
+          return;
+        }
+
+        // Voucher exists, display its details
+        const statusText = ["Issued", "Redeemed", "Expired"][v.status] || "Unknown";
+        const statusClass = ["status-issued", "status-redeemed", "status-expired"][v.status] || "status-not-issued";
+        
+        document.getElementById("voucherDetails").innerHTML = `
+Voucher ID: ${v.id}
+Farmer: ${v.farmer}
+Amount: ${v.amount}
+Issued: ${new Date(v.issueTime * 1000).toLocaleString()}
+Supplier: ${v.supplier !== ethers.constants.AddressZero ? v.supplier : "Not assigned"}
+Redeemed: ${v.redemptionTime > 0 ? new Date(v.redemptionTime * 1000).toLocaleString() : "Not redeemed"}
+Status: <span class="voucher-status ${statusClass}">${statusText}</span>
+        `;
+      } catch (err) {
+        // If there's an error, check if it's because the voucher doesn't exist
+        if (err.message && err.message.includes("SV: Invalid voucher ID")) {
+          document.getElementById("voucherDetails").innerHTML = `
+Voucher ID: ${id}
+<span class="voucher-status status-not-issued">Not Issued</span>
+
+This voucher ID has not been issued yet.
+Only the funder can issue vouchers to farmers.
+          `;
+        } else {
+          alert("Could not fetch voucher: " + (err && err.message ? err.message : err));
+        }
+      }
+    };
+
+    // Keep the role label updated whenever user changes selection in dropdown
+    document.getElementById("accountSelect").onchange = async () => {
+      await updateRoleLabel();
+    };
+  </script>
+</body>
+</html>
