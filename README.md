@@ -1,5 +1,18 @@
 <<<<<<< HEAD
 Subsidy Voucher DApp 🌾
+
+<p align="center">
+  <img src="assets/banner.png" alt="Subsidy Voucher DApp Banner" width="100%">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Solidity-0.8.0-blue?logo=solidity">
+  <img src="https://img.shields.io/badge/Ethers.js-v5-yellow?logo=javascript">
+  <img src="https://img.shields.io/badge/MetaMask-Compatible-orange?logo=metamask">
+  <img src="https://img.shields.io/badge/TailwindCSS-UI-38B2AC?logo=tailwindcss">
+  <img src="https://img.shields.io/badge/LICENSE-MIT-green">
+</p>
+
 A decentralized application for managing agricultural subsidy vouchers on the blockchain. This DApp allows funders to issue digital vouchers to farmers, which can then be redeemed at authorized suppliers for agricultural inputs.
 
 Features
@@ -17,14 +30,14 @@ Blockchain Transparency: All transactions are recorded on the blockchain
 
 Smart Contract Functions
 Funder Functions
-registerSupplier(address _supplier) - Register new suppliers
+registerSupplier(address \_supplier) - Register new suppliers
 
-unregisterSupplier(address _supplier) - Remove supplier authorization
+unregisterSupplier(address \_supplier) - Remove supplier authorization
 
-issueVoucher(address _farmer, uint256 _amount) - Create new vouchers for farmers
+issueVoucher(address \_farmer, uint256 \_amount) - Create new vouchers for farmers
 
 Supplier Functions
-redeemVoucher(uint256 _voucherId) - Redeem vouchers from farmers
+redeemVoucher(uint256 \_voucherId) - Redeem vouchers from farmers
 
 View Functions
 vouchers(uint256) - Get voucher details by ID
@@ -60,10 +73,13 @@ git clone https://github.com/joanwambugu/SubsidyVouchers.git
 Open index.html in your browser or serve using a local server:
 
 bash
+
 # Using Python
+
 python -m http.server 8000
 
 # Using Node.js
+
 npx http-server
 Access the DApp at http://localhost:8000
 
@@ -139,8 +155,9 @@ Push to the branch
 
 Create a Pull Request
 
-Built with ❤️ for transparent agricultural subsidy management
-=======
-"# SubsidyVouchers" 
+# Built with ❤️ for transparent agricultural subsidy management
+
+"# SubsidyVouchers"
 read
->>>>>>> 7f688d4f43b4892006876f9b5fda25ae00364385
+
+> > > > > > > 7f688d4f43b4892006876f9b5fda25ae00364385
