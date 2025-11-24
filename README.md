@@ -9,7 +9,6 @@ Subsidy Voucher DApp 🌾
   <img src="https://img.shields.io/badge/Solidity-0.8.0-blue?logo=solidity">
   <img src="https://img.shields.io/badge/Ethers.js-v5-yellow?logo=javascript">
   <img src="https://img.shields.io/badge/MetaMask-Compatible-orange?logo=metamask">
-  <img src="https://img.shields.io/badge/TailwindCSS-UI-38B2AC?logo=tailwindcss">
   <img src="https://img.shields.io/badge/LICENSE-MIT-green">
 </p>
 
