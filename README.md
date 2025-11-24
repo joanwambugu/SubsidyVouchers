@@ -21,7 +21,6 @@ This project uses:
 - **Remix IDE for deployment**
 - **Ethers.js**
 - **MetaMask**
-- **TailwindCSS UI**
 - **HTML/JavaScript Frontend**
 
 ---
@@ -55,7 +54,6 @@ The Subsidy Voucher DApp enables:
 - 🧾 **Immutable ledger of issued vouchers**
 - ✔ **Prevent double redemption**
 - 🌐 **MetaMask wallet integration**
-- 🎨 **Polished UI using TailwindCSS**
 - 🔎 **Voucher detail viewer**
 - 🧱 **On-chain supplier registration**
 - 🔄 **Account switching from UI dropdown**
@@ -86,7 +84,7 @@ Copy code
 
 project/
 │
-├── index.html # Polished TailwindCSS UI
+├── index.html
 ├── script.js (optional) # JS logic (or embedded in HTML)
 ├── SubsidyVouchers.sol # Smart contract
 ├── README.md # Documentation
@@ -195,7 +193,6 @@ Other
 Any exposed MetaMask address with no role.
 
 🎨 UI Overview
-✔ Polished TailwindCSS cards
 ✔ Separate panels for Funder and Supplier
 ✔ Voucher viewer
 ✔ Dropdown to switch acting wallet
