@@ -142,37 +142,31 @@ Install:
 
 ```bash
 npm install -g http-server
-Run:
 
+Run:
 bash
 Copy code
 http-server .
-Open:
 
+Open:
 arduino
 Copy code
 http://localhost:8080
+
 🔌 Connecting MetaMask
 Click Connect Wallet in the UI.
-
 You will see:
 
 All MetaMask accounts exposed to the DApp
-
 Highlighted roles (Funder, Supplier, Other)
-
 Only funder can register suppliers / issue vouchers
-
 Only suppliers can redeem vouchers
 
 To expose more accounts:
 
 Open MetaMask
-
 Create or import more accounts
-
 Refresh the DApp
-
 Click Connect Wallet again
 
 🎭 Role Detection (How It Works)
@@ -187,6 +181,7 @@ Any address that funder registered using:
 scss
 Copy code
 registerSupplier(address)
+
 Other
 Any exposed MetaMask address with no role.
 
@@ -202,34 +197,28 @@ Copy code
 assets/connect-wallet.png
 assets/funder-panel.png
 assets/supplier-panel.png
+
 🧩 How the System Works
 1. Funder registers supplier
 Supplier address stored both in:
 
 mapping
-
 array supplierList[]
 
 2. Funder issues voucher
 Voucher fields stored on-chain:
 
 farmer
-
 amount
-
 issue timestamp
-
 status
 
 3. Supplier redeems voucher
 Contract:
 
 Checks supplier is registered
-
 Ensures voucher exists
-
 Prevents double redemption
-
 Saves redemption timestamp
 
 🧪 Testing Scenarios
@@ -258,15 +247,7 @@ Feel free to modify and use for academic, governmental, or commercial purposes.
 
 🙌 Acknowledgements
 Ethereum Foundation
-
 MetaMask
-
 Ethers.js team
-
 Kenya’s agricultural subsidy programs (inspiration)
-
-"# SubsidyVouchers"
-read
-
-> > > > > > > 7f688d4f43b4892006876f9b5fda25ae00364385
 ```
