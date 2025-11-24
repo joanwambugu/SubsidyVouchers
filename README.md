@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # 🌾 Subsidy Voucher DApp
 
 <p align="center">
